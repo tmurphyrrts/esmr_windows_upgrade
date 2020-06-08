@@ -10,4 +10,4 @@ Start-Process -FilePath $file -ArgumentList '/quietinstall /skipeula /auto upgra
 $action = New-ScheduledTaskAction -Execute .\cleanup.ps1 
 $trigger = New-ScheduledTaskTrigger -Once -At 3am
 
-Register-ScheduledTask -Action $action -Trigger $trigger -TaskName "Cleanup Windows Upgrade Files" -Description "One time cleanup of the files that were downloaded to upgrade Windows 10"
+Register-ScheduledTask -Action $action -Trigger $trigger -TaskName "Cleanup Windows Upgrade Files" -Description "One time cleanup of the files that were downloaded to upgrade Windows 10 and Sets the Execution Policy back to Restricted"
