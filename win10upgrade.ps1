@@ -6,7 +6,7 @@ $file = "$dir\Win10Upgrade.exe"
 $webClient.DownloadFile($url,$file)
 Start-Process -FilePath $file -ArgumentList '/quietinstall /skipeula /auto upgrade /NoReboot /copylogs $dir /showoobe none'
 
-#Create scheduled task for cleanup
-$action = New-ScheduledTaskAction -Execute "Powershell.exe" -Argument "-File C:\Windows\Temp\Win10Upgrade\esmr_windows_upgrade-master\cleanup.ps1"
-$trigger = New-ScheduledTaskTrigger -AtStartup
-Register-ScheduledTask -Action $action -Trigger $trigger -RunLevel Highest -User "System" -TaskName "Cleanup Windows Upgrade Files" -Description "One time cleanup of the files that were downloaded to upgrade Windows 10 and Sets the Execution Policy back to Restricted"
+#Create scheduled job for cleanup
+$trigger = New-JobTrigger -AtStartup -RandomDelay 00:00:30
+$options = New-ScheduledJobOption -RunElevated
+Register-ScheduledJob -Filepath "C:\Windows\Temp\Win10Upgrade\esmr_windows_upgrade-master\cleanup.ps1" -Trigger $trigger -ScheduledJobOption $options -Name "Cleanup Windows Upgrade Files"
